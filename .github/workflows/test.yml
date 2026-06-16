@@ -1,12 +1,18 @@
 name: My First Workflow
 
 on:
-  push:
+  push
 
 jobs:
   hello:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Say Hello
-        run: echo "Hello Anshu!"
+      - name: Show Date
+        run: date
+
+      - name: Show Files
+        run: ls
+
+      - name: Show Current Directory
+        run: pwd
