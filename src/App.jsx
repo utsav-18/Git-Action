@@ -1,121 +1,129 @@
 import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from './assets/vite.svg'
-import heroImg from './assets/hero.png'
 import './App.css'
 
 function App() {
-  const [count, setCount] = useState(0)
+  const [activeNav, setActiveNav] = useState('dashboard')
+
+  const stats = [
+    { label: 'Total Revenue', value: '$48,250', change: '+12.5%', positive: true },
+    { label: 'Active Users', value: '2,845', change: '+8.2%', positive: true },
+    { label: 'Bounce Rate', value: '24.6%', change: '-3.1%', positive: true },
+    { label: 'Orders', value: '1,420', change: '-4.3%', positive: false },
+  ]
+
+  const activities = [
+    { icon: '📦', text: 'New order placed by Sarah Johnson', time: '2 minutes ago', color: '#6c63ff' },
+    { icon: '👤', text: 'New user registered: Alex Rivera', time: '18 minutes ago', color: '#4ade80' },
+    { icon: '💳', text: 'Payment received from TechCorp Inc.', time: '42 minutes ago', color: '#fbbf24' },
+    { icon: '🔔', text: 'System update completed successfully', time: '1 hour ago', color: '#60a5fa' },
+  ]
+
+  const navItems = [
+    { id: 'dashboard', icon: '📊', label: 'Dashboard' },
+    { id: 'analytics', icon: '📈', label: 'Analytics' },
+    { id: 'orders', icon: '📋', label: 'Orders' },
+    { id: 'customers', icon: '👥', label: 'Customers' },
+    { id: 'products', icon: '📦', label: 'Products' },
+    { id: 'settings', icon: '⚙️', label: 'Settings' },
+  ]
+
+  const barHeights = [45, 70, 55, 90, 65, 100, 80, 50, 85, 60, 75, 40]
 
   return (
-    <>
-      <section id="center">
-        <div className="hero">
-          <img src={heroImg} className="base" width="170" height="179" alt="" />
-          <img src={reactLogo} className="framework" alt="React logo" />
-          <img src={viteLogo} className="vite" alt="Vite logo" />
+    <div className="dashboard">
+      {/* Sidebar */}
+      <aside className="sidebar">
+        <div className="sidebar-logo">
+          Dash<span>Board</span>
         </div>
-        <div>
-          <h1>Get started</h1>
-          <p>
-            Edit <code>src/App.jsx</code> and save to test <code>HMR</code>
-          </p>
-        </div>
-        <button
-          type="button"
-          className="counter"
-          onClick={() => setCount((count) => count + 1)}
-        >
-          Count is {count}
-        </button>
-      </section>
+        <nav className="sidebar-nav">
+          {navItems.map((item) => (
+            <button
+              key={item.id}
+              className={`nav-item ${activeNav === item.id ? 'active' : ''}`}
+              onClick={() => setActiveNav(item.id)}
+            >
+              <span className="icon">{item.icon}</span>
+              <span className="label">{item.label}</span>
+            </button>
+          ))}
+        </nav>
+      </aside>
 
-      <div className="ticks"></div>
+      {/* Main Content */}
+      <div className="main-content">
+        {/* Header */}
+        <header className="header">
+          <h1>Dashboard</h1>
+          <div className="header-right">
+            <button className="notification-btn">
+              🔔
+              <span className="notification-badge"></span>
+            </button>
+            <div className="avatar">U</div>
+          </div>
+        </header>
 
-      <section id="next-steps">
-        <div id="docs">
-          <svg className="icon" role="presentation" aria-hidden="true">
-            <use href="/icons.svg#documentation-icon"></use>
-          </svg>
-          <h2>Documentation</h2>
-          <p>Your questions, answered</p>
-          <ul>
-            <li>
-              <a href="https://vite.dev/" target="_blank">
-                <img className="logo" src={viteLogo} alt="" />
-                Explore Vite
-              </a>
-            </li>
-            <li>
-              <a href="https://react.dev/" target="_blank">
-                <img className="button-icon" src={reactLogo} alt="" />
-                Learn more
-              </a>
-            </li>
-          </ul>
-        </div>
-        <div id="social">
-          <svg className="icon" role="presentation" aria-hidden="true">
-            <use href="/icons.svg#social-icon"></use>
-          </svg>
-          <h2>Connect with us</h2>
-          <p>Join the Vite community</p>
-          <ul>
-            <li>
-              <a href="https://github.com/vitejs/vite" target="_blank">
-                <svg
-                  className="button-icon"
-                  role="presentation"
-                  aria-hidden="true"
-                >
-                  <use href="/icons.svg#github-icon"></use>
-                </svg>
-                GitHub
-              </a>
-            </li>
-            <li>
-              <a href="https://chat.vite.dev/" target="_blank">
-                <svg
-                  className="button-icon"
-                  role="presentation"
-                  aria-hidden="true"
-                >
-                  <use href="/icons.svg#discord-icon"></use>
-                </svg>
-                Discord
-              </a>
-            </li>
-            <li>
-              <a href="https://x.com/vite_js" target="_blank">
-                <svg
-                  className="button-icon"
-                  role="presentation"
-                  aria-hidden="true"
-                >
-                  <use href="/icons.svg#x-icon"></use>
-                </svg>
-                X.com
-              </a>
-            </li>
-            <li>
-              <a href="https://bsky.app/profile/vite.dev" target="_blank">
-                <svg
-                  className="button-icon"
-                  role="presentation"
-                  aria-hidden="true"
-                >
-                  <use href="/icons.svg#bluesky-icon"></use>
-                </svg>
-                Bluesky
-              </a>
-            </li>
-          </ul>
-        </div>
-      </section>
+        {/* Content */}
+        <div className="content-area">
+          {/* Stats Grid */}
+          <div className="stats-grid">
+            {stats.map((stat, idx) => (
+              <div key={idx} className="stat-card">
+                <div className="stat-label">{stat.label}</div>
+                <div className="stat-value">{stat.value}</div>
+                <div className={`stat-change ${stat.positive ? 'positive' : 'negative'}`}>
+                  {stat.change}
+                </div>
+              </div>
+            ))}
+          </div>
 
-      <div className="ticks"></div>
-      <section id="spacer"></section>
-    </>
+          {/* Recent Activity */}
+          <h2 className="section-title">Recent Activity</h2>
+          <div className="activity-list">
+            {activities.map((act, idx) => (
+              <div key={idx} className="activity-item">
+                <div className="activity-icon" style={{ background: `${act.color}22` }}>
+                  {act.icon}
+                </div>
+                <div className="activity-details">
+                  <div className="activity-text">{act.text}</div>
+                  <div className="activity-time">{act.time}</div>
+                </div>
+              </div>
+            ))}
+          </div>
+
+          {/* Charts */}
+          <div className="charts-row">
+            <div className="chart-card">
+              <div className="chart-title">Weekly Revenue</div>
+              <div className="chart-placeholder">
+                {barHeights.map((h, idx) => (
+                  <div
+                    key={idx}
+                    className="bar"
+                    style={{
+                      height: `${h}%`,
+                      background: `hsl(${250 + idx * 3}, 60%, ${50 + idx * 1.5}%)`,
+                    }}
+                  ></div>
+                ))}
+              </div>
+            </div>
+            <div className="chart-card">
+              <div className="chart-title">Traffic Sources</div>
+              <div className="donut-placeholder">
+                <div className="donut-ring">
+                  <div className="donut-ring-inner">65%</div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
   )
 }
 
